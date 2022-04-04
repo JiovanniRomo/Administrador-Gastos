@@ -1,6 +1,30 @@
+import { FC } from 'react';
+import { ControlPresupuesto } from './ControlPresupuesto';
+import { IFormulario } from './interfaces/IProps';
+import { NuevoPresupuesto } from './NuevoPresupuesto';
 
-export const Header = () => {
-  return (
-    <div>Header</div>
-  )
-}
+export const Header: FC<IFormulario> = ({
+	presupuesto,
+	setPresupuesto,
+	isValidPresupuesto,
+	setIsValidPresupuesto,
+}) => {
+
+	return (
+		<header>
+			<h1>Planificador de Gastos</h1>
+
+			{isValidPresupuesto ? (
+        <ControlPresupuesto 
+            presupuesto={presupuesto}
+        />
+			) : (
+				<NuevoPresupuesto
+					presupuesto={presupuesto}
+					setPresupuesto={setPresupuesto}
+					setIsValidPresupuesto={setIsValidPresupuesto}
+				/>
+			)}
+		</header>
+	);
+};
