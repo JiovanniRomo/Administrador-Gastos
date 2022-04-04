@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Header } from './components/Header'
-import { IGasto } from './components/interfaces/IFormulario'
+import { IGasto } from './components/interfaces/IGasto'
 import { Modal } from './components/Modal'
+import { generarID } from './helpers'
 import IconoNuevoGasto from './img/nuevo-gasto.svg'
 
 const App = () => {
@@ -23,8 +24,12 @@ const App = () => {
   }
 
   const guardarGasto = (gasto: IGasto) => {
-    console.log(gasto)
-    // setGastos(...gastos, gasto)
+
+    gasto.id = generarID();
+    setGastos([...gastos, gasto]);
+
+    setAnimarModal(false);
+    setModal(false);
   }
 
   return (

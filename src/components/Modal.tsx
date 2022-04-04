@@ -1,8 +1,8 @@
+import { Dispatch, FC, useState } from 'react';
 import { useFormik } from 'formik';
-import React, { Dispatch, FC, useState } from 'react';
-import CerrarBtn from '../img/cerrar.svg';
-import { IGasto } from './interfaces/IFormulario';
+import { IGasto } from './interfaces/IGasto';
 import { Mensaje } from './Mensaje';
+import CerrarBtn from '../img/cerrar.svg';
 
 
 interface Props {
