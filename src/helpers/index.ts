@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 
 export const generarID = () => {
     const random = Math.random().toString(36).substring(2)
@@ -5,3 +6,8 @@ export const generarID = () => {
 
     return random + fecha;
 }
+
+export const formatearFecha = (fecha: number) => {
+    return format((new Date(fecha)), "dd/MM/yyyy")
+}
+

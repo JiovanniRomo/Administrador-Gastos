@@ -1,4 +1,4 @@
-import { Dispatch, FC, useState } from 'react';
+import { Dispatch, FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { IGasto } from './interfaces/IGasto';
 import { Mensaje } from './Mensaje';
@@ -10,11 +10,22 @@ interface Props {
 	animarModal: boolean;
     setAnimarModal: Dispatch<React.SetStateAction<boolean>>
     guardarGasto: (gasto: IGasto) => void
+    gastoEditar: IGasto
 }
 
-export const Modal: FC<Props> = ({ setModal, animarModal, setAnimarModal, guardarGasto }) => {
+export const Modal: FC<Props> = ({ setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar }) => {
 
     const [mensaje, setMensaje] = useState('')
+
+    useEffect(() => {
+        if(Object.keys(gastoEditar).length > 0) {
+            formik.values.cantidad = gastoEditar.cantidad
+            formik.values.categoria = gastoEditar.categoria
+            formik.values.nombre = gastoEditar.nombre
+            formik.values.fecha = gastoEditar.fecha
+            formik.values.id = gastoEditar.id
+        }
+    }, [])
 
     const ocultarModal = () => {
 

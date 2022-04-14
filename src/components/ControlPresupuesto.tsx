@@ -1,10 +1,26 @@
-import React, { FC } from 'react';
+import { useEffect, useState } from 'react';
+import { IGasto } from './interfaces/IGasto';
 
-interface Props {
+type Props = {
+	gastos: IGasto[];
 	presupuesto: number;
-}
+};
 
-export const ControlPresupuesto: FC<Props> = ({ presupuesto }) => {
+export const ControlPresupuesto = ({ gastos, presupuesto }: Props) => {
+	const [disponible, setDisponible] = useState(0);
+	const [gastado, setGastado] = useState(0);
+
+	useEffect(() => {
+		const totalGastado = gastos.reduce(
+			(total, gasto) => total + gasto.cantidad,
+			0
+		);
+
+		const presupuestoDisponible = presupuesto - totalGastado;
+
+		setGastado(totalGastado);
+		setDisponible(presupuestoDisponible);
+	}, [gastos, presupuesto]);
 
 	const formatearCantidad = (cantidad: number) => {
 		return cantidad.toLocaleString('en-US', {
@@ -21,15 +37,18 @@ export const ControlPresupuesto: FC<Props> = ({ presupuesto }) => {
 
 			<div className="contenido-presupuesto">
 				<p>
-					<span>Presupuesto: </span>{formatearCantidad(presupuesto)}
+					<span>Presupuesto: </span>
+					{formatearCantidad(presupuesto)}
 				</p>
 
-                <p>
-					<span>Disponible: </span>{formatearCantidad(0)}
+				<p>
+					<span>Disponible: </span>
+					{formatearCantidad(disponible)}
 				</p>
 
-                <p>
-					<span>Gastado: </span>{formatearCantidad(0)}
+				<p>
+					<span>Gastado: </span>
+					{formatearCantidad(gastado)}
 				</p>
 			</div>
 		</div>

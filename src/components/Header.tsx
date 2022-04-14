@@ -8,6 +8,7 @@ export const Header: FC<IFormulario> = ({
 	setPresupuesto,
 	isValidPresupuesto,
 	setIsValidPresupuesto,
+	gastos
 }) => {
 
 	return (
@@ -15,10 +16,11 @@ export const Header: FC<IFormulario> = ({
 			<h1>Planificador de Gastos</h1>
 
 			{isValidPresupuesto ? (
-        <ControlPresupuesto 
-            presupuesto={presupuesto}
-        />
-			) : (
+				<ControlPresupuesto 
+					gastos={gastos!!}
+					presupuesto={presupuesto}
+				/>
+				) : (
 				<NuevoPresupuesto
 					presupuesto={presupuesto}
 					setPresupuesto={setPresupuesto}

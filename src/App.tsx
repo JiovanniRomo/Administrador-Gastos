@@ -1,66 +1,92 @@
-import { useState } from 'react'
-import { Header } from './components/Header'
-import { IGasto } from './components/interfaces/IGasto'
-import { Modal } from './components/Modal'
-import { generarID } from './helpers'
-import IconoNuevoGasto from './img/nuevo-gasto.svg'
+import { useEffect, useState } from 'react';import { Header } from './components/Header';
+import { IGasto } from './components/interfaces/IGasto';
+import { ListadoGastos } from './components/ListadoGastos';
+import { Modal } from './components/Modal';
+import { generarID } from './helpers';
+import IconoNuevoGasto from './img/nuevo-gasto.svg';
+import './index.css';
 
 const App = () => {
+	const [presupuesto, setPresupuesto] = useState(0);
+	const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
 
-  const [presupuesto, setPresupuesto] = useState(0)
-  const [isValidPresupuesto, setIsValidPresupuesto] = useState(false)
+	const [modal, setModal] = useState(false);
+	const [animarModal, setAnimarModal] = useState(false);
 
-  const [modal, setModal] = useState(false)
-  const [animarModal, setAnimarModal] = useState(false)
+	const [gastos, setGastos] = useState<IGasto[]>([]);
 
-  const [gastos, setGastos] = useState<IGasto[]>([])
+	const [gastoEditar, setGastoEditar] = useState<IGasto>({
+		cantidad: 0,
+		categoria: '',
+		nombre: '',
+	});
 
-  const handleNuevoGasto = () => {
-    console.log('Click click')
-    setModal(true)
-    setTimeout(() => {
-      setAnimarModal(true)
-    }, 500)
-  }
+	useEffect(() => {
+		if (Object.keys(gastoEditar).length > 0) {
+			setModal(true);
+			setTimeout(() => {
+				setAnimarModal(true);
+			}, 500);
+		}
+	}, [gastoEditar]);
 
-  const guardarGasto = (gasto: IGasto) => {
+	const handleNuevoGasto = () => {
+		setModal(true);
+		setGastoEditar({ cantidad: 0, categoria: '', nombre: '' });
+		setTimeout(() => {
+			setAnimarModal(true);
+		}, 500);
+	};
 
-    gasto.id = generarID();
-    setGastos([...gastos, gasto]);
+	const guardarGasto = (gasto: IGasto) => {
+		gasto.id = generarID();
+		gasto.fecha = Date.now();
+		setGastos([...gastos, gasto]);
 
-    setAnimarModal(false);
-    setModal(false);
-  }
+		setAnimarModal(false);
+		setModal(false);
+	};
 
-  return (
-    <div className="App">
-      <Header 
-          presupuesto={presupuesto}
-          setPresupuesto={setPresupuesto}
-          isValidPresupuesto={isValidPresupuesto}
-          setIsValidPresupuesto={setIsValidPresupuesto}
-      />
+	return (
+		<div className={modal ? 'fijar' : ''}>
+			<Header
+				presupuesto={presupuesto}
+				setPresupuesto={setPresupuesto}
+				isValidPresupuesto={isValidPresupuesto}
+				setIsValidPresupuesto={setIsValidPresupuesto}
+				gastos={gastos}
+			/>
 
-      {
-        isValidPresupuesto && (
-          <div className="nuevo-gasto">
-            <img src={IconoNuevoGasto} alt="icono nuevo gasto" onClick={handleNuevoGasto}/>
-          </div>
-        )
-      }
+			{isValidPresupuesto && (
+				<>
+					<main>
+						<ListadoGastos
+							gastos={gastos}
+							setGastoEditar={setGastoEditar}
+						/>
+					</main>
 
-      { 
-        modal && 
-        <Modal
-            setModal={setModal}
-            animarModal={animarModal}
-            setAnimarModal={setAnimarModal}
-            guardarGasto={guardarGasto}
-          />
-      }
+					<div className="nuevo-gasto">
+						<img
+							src={IconoNuevoGasto}
+							alt="icono nuevo gasto"
+							onClick={handleNuevoGasto}
+						/>
+					</div>
+				</>
+			)}
 
-    </div>
-  )
-}
+			{modal && (
+				<Modal
+					setModal={setModal}
+					animarModal={animarModal}
+					setAnimarModal={setAnimarModal}
+					guardarGasto={guardarGasto}
+					gastoEditar={gastoEditar}
+				/>
+			)}
+		</div>
+	);
+};
 
-export default App
+export default App;
