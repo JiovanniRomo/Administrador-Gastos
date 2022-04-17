@@ -5,7 +5,7 @@ import { Mensaje } from './Mensaje';
 import CerrarBtn from '../img/cerrar.svg';
 
 
-interface Props {
+type Props = {
 	setModal: Dispatch<React.SetStateAction<boolean>>;
 	animarModal: boolean;
     setAnimarModal: Dispatch<React.SetStateAction<boolean>>
@@ -13,7 +13,7 @@ interface Props {
     gastoEditar: IGasto
 }
 
-export const Modal: FC<Props> = ({ setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar }) => {
+export const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar }: Props) => {
 
     const [mensaje, setMensaje] = useState('')
 
@@ -22,10 +22,8 @@ export const Modal: FC<Props> = ({ setModal, animarModal, setAnimarModal, guarda
             formik.values.cantidad = gastoEditar.cantidad
             formik.values.categoria = gastoEditar.categoria
             formik.values.nombre = gastoEditar.nombre
-            formik.values.fecha = gastoEditar.fecha
-            formik.values.id = gastoEditar.id
         }
-    }, [])
+    }, [gastoEditar])
 
     const ocultarModal = () => {
 

@@ -22,7 +22,8 @@ const App = () => {
 	});
 
 	useEffect(() => {
-		if (Object.keys(gastoEditar).length > 0) {
+		if (gastoEditar.nombre !== '') {
+			console.log('gastoEditar', gastoEditar);
 			setModal(true);
 			setTimeout(() => {
 				setAnimarModal(true);
