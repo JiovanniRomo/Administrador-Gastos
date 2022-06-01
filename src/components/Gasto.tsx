@@ -25,6 +25,7 @@ import React, { Dispatch } from 'react';
 type IProps = {
     gasto: IGasto
     setGastoEditar: Dispatch<React.SetStateAction<IGasto>>
+    eliminarGasto: (id: string) => void
 }
 
 const iconoSwitch = (categoria: string) => {
@@ -55,13 +56,13 @@ const iconoSwitch = (categoria: string) => {
   }
 }
 
-export const Gasto = ({ gasto, setGastoEditar }: IProps) => {
+export const Gasto = ({ gasto, setGastoEditar, eliminarGasto }: IProps) => {
 
   return (
     <SwipeableList>
       <SwipeableListItem
         leadingActions={ <LeadingActionsComponent setGastoEditar={setGastoEditar} gasto={gasto}/> }
-        trailingActions={ <TrailingActionsComponent /> }
+        trailingActions={ <TrailingActionsComponent eliminarGasto={eliminarGasto} gasto={gasto}/> }
       >
         <div className='gasto sombra'>
           <div className="contenido-gasto">
